@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Levek Page</title>
+    <title>Levek</title>
     <style>
         body {
             margin: 0;
@@ -13,28 +13,59 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            cursor: pointer; /* 添加点击提示 */
         }
-        
         .text {
             font-size: 48px;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             margin-bottom: 20px;
         }
-        
         img {
             max-width: 300px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
     </style>
 </head>
 <body>
+    <div id="overlay">点击任意位置开始播放</div>
     <div class="text">levek</div>
-    <img src="ZP/2.jpg" alt="显示图片">
+    <img src="ZP/2.png" alt="显示图片">
     
-    <audio autoplay loop >
+    <audio id="bgm" loop>
         <source src="music/使一颗心免于哀伤.mp3" type="audio/mpeg">
-        您的浏览器不支持音频播放
     </audio>
+
+    <script>
+        // 添加点击事件监听
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('bgm');
+            const overlay = document.getElementById('overlay');
+            
+            // 尝试自动播放
+            audio.play().catch(() => {
+                overlay.style.display = 'flex'; // 显示提示层
+            });
+
+            // 点击页面后开始播放
+            document.body.addEventListener('click', function() {
+                audio.play();
+                overlay.style.display = 'none'; // 隐藏提示层
+            }, { once: true }); // 仅触发一次
+        });
+    </script>
 </body>
 </html>
